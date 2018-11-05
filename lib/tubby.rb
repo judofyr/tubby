@@ -46,7 +46,7 @@ module Tubby
     end
 
     def raw!(text)
-      @target << text
+      @target << text.to_s
     end
 
     def doctype!
