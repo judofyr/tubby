@@ -15,6 +15,10 @@ module Tubby
       render_into(String.new)
     end
 
+    def to_html
+      to_s
+    end
+
     def render_into(target)
       renderer = Renderer.new(target)
       apply(renderer)
