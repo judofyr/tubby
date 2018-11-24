@@ -45,5 +45,13 @@ class TestTubby < Minitest::Test
 
     assert_equal "a1<h1>Child</h1>b&amp;cc&b", tmpl.to_s
   end
+
+  def test_raw
+    tmpl = Tubby.new { |t|
+      t.raw! "<b>Yes!</b>"
+    }
+
+    assert_equal "<b>Yes!</b>", tmpl.to_s
+  end
 end
 
