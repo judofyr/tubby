@@ -60,7 +60,7 @@ module Tubby
     def __attrs!(attrs)
       attrs.each do |key, value|
         if value.is_a?(Array)
-          value = value.select { |v| v }.join(" ")
+          value = value.compact.join(" ")
         end
 
         if value

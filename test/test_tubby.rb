@@ -95,7 +95,7 @@ class TestTubby < Minitest::Test
       t.h1(a: false, b: nil, c: "", d: 123, e: [], f: [nil, 1, false, 2], g: true)
     }
 
-    assert_equal '<h1 c="" d="123" e="" f="1 2" g></h1>', tmpl.to_s
+    assert_equal '<h1 c="" d="123" e="" f="1 false 2" g></h1>', tmpl.to_s
   end
 
   class HTMLBuffer < String
