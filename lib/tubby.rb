@@ -96,7 +96,7 @@ module Tubby
       blockquote body button canvas caption center cite code colgroup datalist
       dd del details dfn dir div dl dt em fieldset figcaption figure font footer
       form frame frameset h1 h2 h3 h4 h5 h6 head header hgroup html i iframe ins
-      kbd label legend li map mark math menu meter nav noframes noscript
+      kbd label legend li map mark math menu meter nav
       object ol optgroup option output p pre progress q rp rt ruby s samp
       section select small span strike strong style sub summary sup svg table
       tbody td textarea tfoot th thead time title tr tt u ul var video xmp
