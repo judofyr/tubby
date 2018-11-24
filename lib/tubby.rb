@@ -80,7 +80,7 @@ module Tubby
       @target << "<" << name
       __attrs!(attrs)
       @target << ">"
-      @target << content if content
+      self << content if content
       yield if block_given?
       @target << "</" << name << ">"
     end
