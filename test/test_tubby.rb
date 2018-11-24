@@ -17,5 +17,32 @@ class TestTubby < Minitest::Test
 
     assert_equal "<h1>A &amp; B</h1>C &amp; D", tmpl.to_s
   end
+
+  def test_append
+    a = Tubby.new { |t|
+      t.h1("Child")
+    }
+
+    b = Object.new
+    def b.to_s
+      "b&c"
+    end
+
+    c = Object.new
+    def c.to_html
+      "c&b"
+    end
+
+    tmpl = Tubby.new { |t|
+      t << nil
+      t << "a"
+      t << 1
+      t << a
+      t << b
+      t << c
+    }
+
+    assert_equal "a1<h1>Child</h1>b&amp;cc&b", tmpl.to_s
+  end
 end
 
