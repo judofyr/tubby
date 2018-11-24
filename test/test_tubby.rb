@@ -117,5 +117,15 @@ class TestTubby < Minitest::Test
 
     assert_equal "<h1>a&b</h1>", tmpl.to_s
   end
+
+  def test_custom_target
+    tmpl = Tubby.new { |t|
+      t.h1("Hello")
+    }
+
+    result = tmpl.render_into([])
+    assert_instance_of Array, result
+    assert_equal "<h1>Hello</h1>", result.join
+  end
 end
 
