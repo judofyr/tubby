@@ -127,5 +127,23 @@ class TestTubby < Minitest::Test
     assert_instance_of Array, result
     assert_equal "<h1>Hello</h1>", result.join
   end
+
+  def test_script_content
+    tmpl = Tubby.new { |t|
+      t.script("console.log(2 > 1)")
+    }
+
+    assert_equal "<script>console.log(2 > 1)</script>", tmpl.to_s
+
+    weird_stuff = %w[</script <script <!--"]
+
+    weird_stuff.each do |weird|
+      assert_raises do
+        Tubby.new { |t|
+          t.script("a#{weird}b")
+        }.to_s
+      end
+    end
+  end
 end
 

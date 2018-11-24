@@ -97,7 +97,7 @@ module Tubby
       dd del details dfn dir div dl dt em fieldset figcaption figure font footer
       form frame frameset h1 h2 h3 h4 h5 h6 head header hgroup html i iframe ins
       kbd label legend li map mark math menu meter nav noframes noscript
-      object ol optgroup option output p pre progress q rp rt ruby s samp script
+      object ol optgroup option output p pre progress q rp rt ruby s samp
       section select small span strike strong style sub summary sup svg table
       tbody td textarea tfoot th thead time title tr tt u ul var video xmp
     ]
@@ -121,6 +121,19 @@ module Tubby
           self_closing_tag!(#{name.inspect}, attrs)
         end
       RUBY
+    end
+
+    def script(content = nil, **attrs)
+      @target << "<script"
+      __attrs!(attrs)
+      @target << ">"
+      if content
+        if content =~ /<(!--|script|\/script)/
+          raise "script tags can not contain #$&"
+        end
+        @target << content
+      end
+      @target << "</script>"
     end
   end
 end
