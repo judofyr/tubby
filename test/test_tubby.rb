@@ -76,6 +76,20 @@ class TestTubby < Minitest::Test
     end
   end
 
+  def test_content
+    tmpl = Tubby.new { |t|
+      t.div("a")
+      t.div {
+        t << "a"
+      }
+      t.div("a") {
+        t << "b"
+      }
+    }
+
+    assert_equal "<div>a</div><div>a</div><div>ab</div>", tmpl.to_s
+  end
+
   def test_attrs
     tmpl = Tubby.new { |t|
       t.h1(a: false, b: nil, c: "", d: 123, e: [], f: [nil, 1, false, 2], g: true)
