@@ -7,6 +7,7 @@ class TestTubby < Minitest::Test
     }
 
     assert_equal "<h1>Hello world!</h1>", tmpl.to_s
+    assert_equal tmpl.to_html, tmpl.to_s
   end
 
   def test_escape
