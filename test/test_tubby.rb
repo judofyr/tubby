@@ -97,5 +97,25 @@ class TestTubby < Minitest::Test
 
     assert_equal '<h1 c="" d="123" e="" f="1 2" g></h1>', tmpl.to_s
   end
+
+  class HTMLBuffer < String
+    def html_safe?
+      @html_safe == true
+    end
+
+    def html_safe!
+      @html_safe = true
+      self
+    end
+  end
+
+  def test_html_safe
+    tmpl = Tubby.new { |t|
+      text = HTMLBuffer.new("a&b").html_safe!
+      t.h1(text)
+    }
+
+    assert_equal "<h1>a&b</h1>", tmpl.to_s
+  end
 end
 
