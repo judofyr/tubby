@@ -53,5 +53,13 @@ class TestTubby < Minitest::Test
 
     assert_equal "<b>Yes!</b>", tmpl.to_s
   end
+
+  def test_doctype
+    tmpl = Tubby.new { |t|
+      t.doctype!
+    }
+
+    assert_equal "<!DOCTYPE html>", tmpl.to_s
+  end
 end
 
