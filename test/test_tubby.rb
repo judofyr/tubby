@@ -61,5 +61,19 @@ class TestTubby < Minitest::Test
 
     assert_equal "<!DOCTYPE html>", tmpl.to_s
   end
+
+  def test_self_closing
+    tmpl = Tubby.new { |t|
+      t.br
+    }
+
+    assert_equal "<br>", tmpl.to_s
+
+    assert_raises(ArgumentError) do
+      tmpl = Tubby.new { |t|
+        t.br("hello")
+      }.to_s
+    end
+  end
 end
 
