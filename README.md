@@ -39,6 +39,13 @@ end
 puts tmpl.to_s
 ```
 
+Table of contents:
+
+- [Basic usage](#basic-usage)
+- [Advanced usage](#advanced-usage)
+- [Versioning](#versioning)
+- [License](#license)
+
 ## Basic usage
 
 ### Creating templates
@@ -241,6 +248,131 @@ tmpl = Tubby.new { |t|
 `#to_tubby` can return any value that `<<` accepts (i.e. strings that will be
 escaped, objects that respond to `#to_html` and so on), but most of the time you
 want to create a new template object.
+
+## Advanced usage
+
+The variable `t` in all of the examples above is an instance of
+`Tubby::Renderer`. Calling `Tubby::Template#to_s` is a shortcut for the
+following:
+
+```ruby
+tmpl = Tubby.new { |t|
+  # content inside here
+}
+
+# This:
+puts tmpl.to_s
+
+# ... is the same as:
+target = String.new
+t = Tubby::Renderer.new(target)
+tmpl.apply(t)
+puts target
+```
+
+Let's look at two ways 
+
+### Custom target
+
+The target object doesn't have to be a String, it must only be an object which
+responds to `<<`. Using a custom target might be useful if you want stream the
+HTML directly into a socket/file. For instance, this will print the HTML out to
+the standard output:
+
+```ruby
+tmpl = Tubby.new { |t|
+  t.h1("Hello terminal!")
+}
+
+t = Tubby::Renderer.new($stdout)
+tmpl.apply(t)
+```
+
+### Custom renderer
+
+You are also free to subclass the Renderer to provide additional helpers/data:
+
+```ruby
+tmpl = Tubby.new { |t|
+  t.post_form(action: t.login_path) {
+    t.input(name: "username")
+    t.input(type: "password", name: "password")
+  }
+}
+
+class Renderer < Tubby::Renderer
+  include URLHelpers
+
+  attr_accessor :csrf_token
+
+  # Renders a <form>-tag with the csrf_token
+  def post_form(**opts)
+    form(method: "post", **opts) {
+      input(type: "hidden", name: "csrf_token", value: csrf_token)
+      yield
+    }
+  end
+end
+
+target = String.new
+t = Renderer.new(target)
+t.csrf_token = "hello"
+tmpl.apply(t)
+puts target
+```
+
+You should use this feature with care as it makes your components coupled to the
+data you provide. For instance, it might be tempting to have access to the Rack
+environment as `t.rack_env`, but this means you can no longer render any HTML
+outside of a Rack context (e.g: generating email). For CSRF token it makes
+sense: it's a value which is global for the whole page, you might need it deeply
+nested inside a component, and it's a hassle to pass it along.
+
+In general however you should prefer separate classes over custom renderer methods:
+
+```ruby
+# Do this:
+
+class OkCancel
+  def initialize(cancel_link:)
+    @cancel_link = cancel_link
+  end
+
+  def to_tubby
+    Tubby.new { |t|
+      t.div(class: "btn-group") {
+        t.button("Save", class: "btn", type: "submit")
+        t.a("Cancel", class: "btn", href: @cancel_link)
+      }
+    }
+  end
+end
+
+tmpl = Tubby.new { |t|
+  t << OkCancel.new(cancel_link: "/users")
+}
+
+# Don't do this:
+
+class Renderer < Tubby::Renderer
+  def ok_cancel(cancel_link:)
+    Tubby.new { |t|
+      t.div(class: "btn-group") {
+        t.button("Save", class: "btn", type: "submit")
+        t.a("Cancel", class: "btn", href: cancel_link)
+      }
+    }
+  end
+end
+
+tmpl = Tubby.new { |t|
+  t.ok_cancel(cancel_link: "/users")
+}
+```
+
+## Versioning
+
+Tubby is not released yet, but is relatively stable.
 
 ## License
 
