@@ -1,6 +1,8 @@
 require 'rake/testtask'
 
-ENV["JRUBY_OPTS"] = "--debug"
+if RUBY_ENGINE == "ruby"
+  ENV["COVERAGE"] = "1"
+end
 
 task :default => :test
 
