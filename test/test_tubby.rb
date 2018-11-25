@@ -125,7 +125,7 @@ class TestTubby < Minitest::Test
 
     target = []
     t = Tubby::Renderer.new(target)
-    tmpl.apply(t)
+    tmpl.render_with(t)
     assert_equal "<h1>Hello</h1>", target.join
   end
 

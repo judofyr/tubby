@@ -14,7 +14,7 @@ module Tubby
     def to_s
       target = String.new
       renderer = Renderer.new(target)
-      apply(renderer)
+      render_with(renderer)
       target
     end
 
@@ -22,7 +22,7 @@ module Tubby
       to_s
     end
 
-    def apply(renderer)
+    def render_with(renderer)
       @blk.call(renderer)
     end
   end
@@ -35,7 +35,7 @@ module Tubby
     def <<(obj)
       obj = obj.to_tubby if obj.respond_to?(:to_tubby)
       if obj.is_a?(Tubby::Template)
-        obj.apply(self)
+        obj.render_with(self)
       elsif obj.respond_to?(:to_html)
         @target << obj.to_html
       elsif obj.respond_to?(:html_safe?) && obj.html_safe?
