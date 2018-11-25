@@ -12,17 +12,14 @@ module Tubby
     end
 
     def to_s
-      render_into(String.new)
+      target = String.new
+      renderer = Renderer.new(target)
+      apply(renderer)
+      target
     end
 
     def to_html
       to_s
-    end
-
-    def render_into(target)
-      renderer = Renderer.new(target)
-      apply(renderer)
-      target
     end
 
     def apply(renderer)

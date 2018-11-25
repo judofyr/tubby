@@ -123,9 +123,10 @@ class TestTubby < Minitest::Test
       t.h1("Hello")
     }
 
-    result = tmpl.render_into([])
-    assert_instance_of Array, result
-    assert_equal "<h1>Hello</h1>", result.join
+    target = []
+    t = Tubby::Renderer.new(target)
+    tmpl.apply(t)
+    assert_equal "<h1>Hello</h1>", target.join
   end
 
   def test_script_content
