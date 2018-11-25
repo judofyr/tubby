@@ -1,0 +1,4 @@
+rvm:
+  - ruby
+  - jruby
+  - ruby-2.0
