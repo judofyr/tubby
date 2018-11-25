@@ -270,7 +270,7 @@ tmpl.apply(t)
 puts target
 ```
 
-Let's look at two ways 
+Let's look at two ways we can customize Tubby.
 
 ### Custom target
 
