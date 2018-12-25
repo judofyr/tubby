@@ -372,7 +372,8 @@ tmpl = Tubby.new { |t|
 
 ## Versioning
 
-Tubby is not released yet, but is relatively stable.
+Tubby uses version numbers on the form MAJOR.MINOR, and releases are backwards
+compatible with earlier releases with the same MAJOR version.
 
 ## License
 
