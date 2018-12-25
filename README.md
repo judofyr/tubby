@@ -1,5 +1,7 @@
 # Tubby: Tags in Ruby
 
+[![](https://img.shields.io/gem/v/tubby.svg)](https://rubygems.org/gems/tubby) [![](https://img.shields.io/travis/com/judofyr/tubby.svg)](https://travis-ci.com/judofyr/tubby) 
+
 Tubby is a lightweight library for writing HTML components in plain Ruby.
 
 ```ruby
