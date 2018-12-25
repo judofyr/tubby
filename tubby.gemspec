@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary       = 'HTML templates as Ruby'
 
   s.require_paths = %w(lib)
-  s.files         = Dir["lib/**/*.rb"]
+  s.files         = Dir["lib/**/*.rb"] + Dir["*.md"]
   s.license       = '0BSD'
 end
 
