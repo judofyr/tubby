@@ -266,7 +266,7 @@ puts tmpl.to_s
 # ... is the same as:
 target = String.new
 t = Tubby::Renderer.new(target)
-tmpl.render_with(t)
+t << tmpl
 puts target
 ```
 
@@ -285,7 +285,7 @@ tmpl = Tubby.new { |t|
 }
 
 t = Tubby::Renderer.new($stdout)
-tmpl.render_with(t)
+t << tmpl
 ```
 
 ### Custom renderer
@@ -317,7 +317,7 @@ end
 target = String.new
 t = Renderer.new(target)
 t.csrf_token = "hello"
-tmpl.render_with(t)
+t << tmpl
 puts target
 ```
 
