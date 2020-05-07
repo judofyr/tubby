@@ -107,7 +107,7 @@ module Tubby
     TAGS.each do |name|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{name}(content = nil, **attrs, &blk)
-          tag!(#{name.inspect}, content, attrs, &blk)
+          tag!(#{name.inspect}, content, **attrs, &blk)
         end
       RUBY
     end
@@ -115,7 +115,7 @@ module Tubby
     SELF_CLOSING_TAGS.each do |name|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{name}(**attrs)
-          self_closing_tag!(#{name.inspect}, attrs)
+          self_closing_tag!(#{name.inspect}, **attrs)
         end
       RUBY
     end
