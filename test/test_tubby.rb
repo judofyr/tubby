@@ -98,6 +98,14 @@ class TestTubby < Minitest::Test
     assert_equal '<h1 c="" d="123" e="" f="1 false 2" g></h1>', tmpl.to_s
   end
 
+  def test_data_attrs
+    tmpl = Tubby.new { |t|
+      t.div(class: %w[a b], data: {attr1: 'a', attr2: 1})
+    }
+
+    assert_equal '<div class="a b" data-attr1="a" data-attr2="1"></div>', tmpl.to_s
+  end
+
   class HTMLBuffer < String
     def html_safe?
       @html_safe == true
