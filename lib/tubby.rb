@@ -55,6 +55,9 @@ module Tubby
     end
 
     def __attrs!(attrs)
+      if attrs.key?(:data) && attrs[:data].is_a?(Hash)
+        attrs = attrs.merge(attrs.delete(:data).transform_keys { |k| "data-#{k}" })
+      end
       attrs.each do |key, value|
         if value.is_a?(Array)
           value = value.compact.join(" ")
