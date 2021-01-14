@@ -107,13 +107,13 @@ class TestTubby < Minitest::Test
 
     # testing order of data attributes and rewriting of each other:
     assert_equal '<div data-attr1="a" data-attr2="b"></div>',
-                 Tubby.new { |t| t.div(data: {attr1: 'a'}, 'data-attr2': 'b') }.to_s
+                 Tubby.new { |t| t.div(data: {attr1: 'a'}, :'data-attr2' => 'b') }.to_s
     assert_equal '<div data-attr2="b" data-attr1="a"></div>',
-                 Tubby.new { |t| t.div('data-attr2': 'b', data: {attr1: 'a'}) }.to_s
+                 Tubby.new { |t| t.div(:'data-attr2' => 'b', data: {attr1: 'a'}) }.to_s
     assert_equal '<div data-attr1="b"></div>',
-                 Tubby.new { |t| t.div(data: {attr1: 'a'}, 'data-attr1': 'b') }.to_s
+                 Tubby.new { |t| t.div(data: {attr1: 'a'}, :'data-attr1' => 'b') }.to_s
     assert_equal '<div data-attr1="a"></div>',
-                 Tubby.new { |t| t.div('data-attr1': 'b', data: {attr1: 'a'}) }.to_s
+                 Tubby.new { |t| t.div(:'data-attr1' => 'b', data: {attr1: 'a'}) }.to_s
   end
 
   class HTMLBuffer < String
