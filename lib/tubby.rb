@@ -56,8 +56,17 @@ module Tubby
 
     def __attrs!(attrs)
       if attrs.key?(:data) && attrs[:data].is_a?(Hash)
-        attrs = attrs.merge(attrs.delete(:data).transform_keys { |k| "data-#{k}" })
+        # Flatten present `data: {k1: v1, k2: v2}` attribute, inserting `data-k1: v1, data-k2: v2`
+        # into exact place where the attribute was
+        attrs = attrs.map do |key, value|
+          if key == :data && value.is_a?(Hash)
+            value.map { |k, v| [:"data-#{k}", v] }
+          else
+            [[key, value]]
+          end
+        end.flatten(1).to_h
       end
+
       attrs.each do |key, value|
         if value.is_a?(Array)
           value = value.compact.join(" ")
