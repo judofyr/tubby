@@ -100,10 +100,20 @@ class TestTubby < Minitest::Test
 
   def test_data_attrs
     tmpl = Tubby.new { |t|
-      t.div(class: %w[a b], data: {attr1: 'a', attr2: 1})
+      t.div(class: %w[a b], data: {attr1: 'a', attr2: 1}, id: 'foo')
     }
 
-    assert_equal '<div class="a b" data-attr1="a" data-attr2="1"></div>', tmpl.to_s
+    assert_equal '<div class="a b" data-attr1="a" data-attr2="1" id="foo"></div>', tmpl.to_s
+
+    # testing order of data attributes and rewriting of each other:
+    assert_equal '<div data-attr1="a" data-attr2="b"></div>',
+                 Tubby.new { |t| t.div(data: {attr1: 'a'}, 'data-attr2': 'b') }.to_s
+    assert_equal '<div data-attr2="b" data-attr1="a"></div>',
+                 Tubby.new { |t| t.div('data-attr2': 'b', data: {attr1: 'a'}) }.to_s
+    assert_equal '<div data-attr1="b"></div>',
+                 Tubby.new { |t| t.div(data: {attr1: 'a'}, 'data-attr1': 'b') }.to_s
+    assert_equal '<div data-attr1="a"></div>',
+                 Tubby.new { |t| t.div('data-attr1': 'b', data: {attr1: 'a'}) }.to_s
   end
 
   class HTMLBuffer < String
